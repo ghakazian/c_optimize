@@ -41,7 +41,7 @@ double function_j(double f, double fp, double fptilde) {
    return S;
 }
 
-main() {
+int main() {
 
   double S, f, fp, fptilde;
 
@@ -53,4 +53,5 @@ main() {
     }
   }
 
+  return 0;
 }
