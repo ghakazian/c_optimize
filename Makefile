@@ -6,10 +6,10 @@ $(shell mkdir -p ${OUTPUT_PATH})
 default: test_j test_j_optimized
 
 test_j: test_j.c
-	${C_COMPILER} test_j.c -o ${OUTPUT_PATH}/test_j
+	${C_COMPILER} test_j.c -lm -o ${OUTPUT_PATH}/test_j
 
 test_j_optimized: test_j_optimized.c
-	${C_COMPILER} test_j_optimized.c -o ${OUTPUT_PATH}/test_j_optimized
+	${C_COMPILER} test_j_optimized.c -lm -o${OUTPUT_PATH}/test_j_optimized
 clean:
 	rm -rf ${OUTPUT_PATH}
 
