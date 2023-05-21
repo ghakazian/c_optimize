@@ -7,19 +7,16 @@
 // gcc -lm test_j.c -o test_j
 
 // constants -- used for values that are not calculated based on inputs
-double a  = 0.0081;
-double b  = 0.6;
-double g  = 9.807;
-double pi;
-double fptildemin;
-double gC = 5.87;
-double aC = 0.0317;
-double aX, gX;
-double saC = 0.0547;
-double saX = 0.32;
-double sbC = 0.0783;
-double sbX = 0.16;
-double vA;
+const double a  = 0.0081;
+const double b  = 0.6;
+const double g  = 9.807;
+const double gC = 5.87;
+const double aC = 0.0317;
+const double saC = 0.0547;
+const double saX = 0.32;
+const double sbC = 0.0783;
+const double sbX = 0.16;
+double pi, fptildemin, aX, gX, vA;
 
 typedef struct _fptParams {
   double alpha;
