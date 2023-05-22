@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
@@ -27,41 +26,7 @@ typedef struct _fptParams {
 
 fptParams *_fptParams[1001];
 
-/// @brief 
-void fptParams_init() {
-  // Ensure set of fptParams is initialized to NULL pointers
-  memset(_fptParams, 0, sizeof(fptParams*) * 1001);
-}
-
-void fptParams_free() {
-  // Walk through each possible value of fpt by index and free any stored value
-  for(int i = 0; i < 1001; i++) {
-    if (_fptParams[i] != NULL) {
-      free(_fptParams[i]);
-      _fptParams[i] = NULL;
-    }
-  }
-}
-
-fptParams* fptParams_get(double fpt) {
-  // convert value of FPT to an integer index which works since we know it is called in steps of 0.01
-  int index = lround(fpt * 100.0);
-  if (_fptParams[index] != NULL) {
-    return _fptParams[index];
-  }
-
-  // TODO: Ensure we successfully allocate memory from the heap
-  fptParams* params = malloc(sizeof(fptParams));
-  params->alpha = aC  * pow(fpt, aX);
-  params->gamma = gC  * pow(fpt, gX);
-  params->sigma_a = saC * pow(fpt, saX);
-  params->sigma_b = sbC * pow(fpt, sbX);
-  _fptParams[index] = params;
-  return params;
-}
-
 void init() {
-  fptParams_init();
 
   pi = 4.*atan(1.);
   fptildemin = (1.0/2.0/pi) * pow((4.0 * b / 5.0), (1.0/4.0));
@@ -70,35 +35,35 @@ void init() {
   vA = pow(g, 2) * pow((2*pi), -4);
 }
 
-double function_j(double f, double fp, double fptilde) {
-   double fpt = MAX(fptilde, fptildemin);
-   fptParams *params = fptParams_get(fpt);
-
+double function_j(double f, double fp, double sigma, double alpha, double gamma) {
    double exp1arg = -1.25 * pow((f/fp),-4);
-   double sigma   = (f <= fp) * params->sigma_a + (f > fp) * params->sigma_b;
-
+ 
    double exp2arg = -0.5 * pow((f-fp)/(sigma*fp), 2);
 
-   double S = params->alpha * vA * pow(f,-5) * exp(exp1arg) * pow(params->gamma, exp(exp2arg));
+   double S = alpha * vA * pow(f,-5) * exp(exp1arg) * pow(gamma, exp(exp2arg));
 
    return S;
 }
 
 int main() {
-  // Initialize global variables and fptilde cache
+  // Initialize global variables
   init();
 
   double S, f, fp, fptilde;
+  for (fptilde = 0.; fptilde <= 10.; fptilde += 0.01) {
+    double fpt = MAX(fptilde, fptildemin);
 
-  for (f = -5.; f <= 5.; f += 0.01) {
-    for (fp = 0.; fp <= 10.; fp += 0.01) {
-      for (fptilde = 0.; fptilde <= 10.; fptilde += 0.01) {
-        S = function_j(f, fp, fptilde);
-      }
+    double alpha   = aC  * pow(fpt, aX);
+    double gamma   = gC  * pow(fpt, gX);
+    double sigma_a = saC * pow(fpt, saX);
+    double sigma_b = sbC * pow(fpt, sbX);
+    for (f = -5.; f <= 5.; f += 0.01) {
+        for (fp = 0.; fp <= 10.; fp += 0.01) {
+            double sigma = (f <= fp) * sigma_a + (f > fp) * sigma_b;
+            S = function_j(f, fp, sigma, alpha, gamma);
+        }
     }
-  }
 
-  // free fptilde cache
-  fptParams_free();
+  }
   return 0;
 }
