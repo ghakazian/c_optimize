@@ -17,15 +17,6 @@ const double sbC = 0.0783;
 const double sbX = 0.16;
 double pi, fptildemin, aX, gX, vA;
 
-typedef struct _fptParams {
-  double alpha;
-  double gamma;
-  double sigma_a;
-  double sigma_b;
-} fptParams;
-
-fptParams *_fptParams[1001];
-
 void init() {
 
   pi = 4.*atan(1.);
