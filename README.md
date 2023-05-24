@@ -19,11 +19,11 @@ For the fourth area, I tried an alternate approach to the third area to accompli
 
 Evaluation:
 Below are the performance evaluations of these steps of improvement compared to the original base case. To evaluate the performance, I ran the unix time command with the original and optimized version at each step and recorded the time required for the algorithm to complete.
-Base case / Original: 148.34s
-Step A: 142.97s
-Step B: 96.36s
-Step C: 52.12s
-Step D: 46.98s
+- Base case / Original: 148.34s
+- Step A: 142.97s
+- Step B: 96.36s
+- Step C: 52.12s
+- Step D: 46.98s
 
 Conclusion:
 As expected, the first step of optimization yielded a minimal improvement in performance. My guess is that this same optimization could have been handled by a compiler optimization flag. The second and third steps, however, yielded significant improvements in performance, of over 30% reduction in time to complete for each. Combined, the optimized program executes in about 65% less time than the original. The improvements from the fourth step were marginally better still. This was done with no changes to the logical behavior of the algorithm; with more time and understanding of the underlying math I believe it might be feasible to rewrite the algorithm to something with less than O(n3) complexity. Such an improvement would either further reduce the time required to execute against this set of inputs, or allow it to run with more fine-grained stepping of the values used as inputs.
